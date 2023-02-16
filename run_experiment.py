@@ -102,7 +102,8 @@ def main(args_override=None):
 
 def run_hparam_search():
     hparams_space = OrderedDict(
-        sample_size = [4, 8]
+        sample_size = [4, 8],
+        argument_2 = [True, False]
     )
 
     parent_directory = pathlib.Path(__file__).parent.absolute()
@@ -114,9 +115,7 @@ def run_hparam_search():
         hparam_dict = dict(zip(hparams_space.keys(), hparam_values))
 
         # Filter illegal hparam combinations
-        if (hparam_dict["continual"] and hparam_dict["select_iterations"] == 1) or \
-            hparam_dict["top_range_start"] >= hparam_dict["top_range_end"] or \
-            hparam_dict["bottom_range_start"] >= hparam_dict["bottom_range_end"]:
+        if (hparam_dict["sample_size"] == 2 and hparam_dict["argument_2"]):
             continue
         hparam_space.append(hparam_dict)
         
@@ -149,5 +148,4 @@ if __name__ == "__main__":
 
     # If no arguments, run hparam search
     else:
-        print("there")
         run_hparam_search()
